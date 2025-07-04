@@ -95,7 +95,7 @@ resource "azurerm_linux_function_app" "main" {
   app_settings = {
     "FUNCTIONS_WORKER_RUNTIME"         = "python"
     "AzureWebJobsStorage"              = data.azurerm_storage_account.function.primary_connection_string
-    "EVENT_HUB_CONN_STR"               = "Endpoint=sb://episure-eh-namespace.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=C64+SohF3aRm7u+fh9U9dPlNJLr+pOCrp+AEhLfoiHY="
+    "EVENT_HUB_CONN_STR"               = ""
     "APPINSIGHTS_INSTRUMENTATIONKEY"  = azurerm_application_insights.main.instrumentation_key
   }
 
