@@ -21,7 +21,7 @@ resource "azurerm_resource_group" "main" {
 
 # Azure Data Lake Gen2 - used to store all raw event data (important and non-important) from kits
 resource "azurerm_storage_account" "datalake" {
-  name                     = "episuredatalake${random_string.suffix.result}"
+  name                     = "example${random_string.suffix.result}"
   resource_group_name      = azurerm_resource_group.main.name
   location                 = azurerm_resource_group.main.location
   account_tier             = "Standard"
@@ -31,7 +31,7 @@ resource "azurerm_storage_account" "datalake" {
 
 # Azure Event Hub Namespace - entry point for ingesting data at scale from mobile devices
 resource "azurerm_eventhub_namespace" "main" {
-  name                = "episureehnamespace${random_string.suffix.result}"
+  name                = "example${random_string.suffix.result}"
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
   sku                 = "Basic"
@@ -40,7 +40,7 @@ resource "azurerm_eventhub_namespace" "main" {
 
 # Azure Event Hub - receives data from mobile apps, simulating sensor event uploads
 resource "azurerm_eventhub" "main" {
-  name                = "episureevents"
+  name                = "example"
   namespace_name      = azurerm_eventhub_namespace.main.name
   resource_group_name = azurerm_resource_group.main.name
   partition_count     = 2
@@ -49,7 +49,7 @@ resource "azurerm_eventhub" "main" {
 
 # Azure Storage Account - backing storage for Azure Function App
 resource "azurerm_storage_account" "function" {
-  name                     = "episurefunc${random_string.suffix.result}"
+  name                     = "example${random_string.suffix.result}"
   resource_group_name      = azurerm_resource_group.main.name
   location                 = azurerm_resource_group.main.location
   account_tier             = "Standard"
@@ -58,7 +58,7 @@ resource "azurerm_storage_account" "function" {
 
 # Application Insights - used for full-stack monitoring, telemetry, and tracing
 resource "azurerm_application_insights" "main" {
-  name                = "episure-appinsights"
+  name                = "example"
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
   application_type    = "web"
@@ -70,7 +70,7 @@ resource "azurerm_application_insights" "main" {
 
 # Service Plan for hosting Azure Function (Linux, free tier)
 resource "azurerm_service_plan" "main" {
-  name                = "episure-plan"
+  name                = "example"
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
   os_type             = "Linux"
@@ -86,7 +86,7 @@ data "azurerm_storage_account" "function" {
 
 # Azure Function App - processes real-time events, identifies critical cases, routes data accordingly
 resource "azurerm_linux_function_app" "main" {
-  name                       = "episure-function"
+  name                       = "example"
   resource_group_name        = azurerm_resource_group.main.name
   location                   = azurerm_resource_group.main.location
   service_plan_id            = azurerm_service_plan.main.id
@@ -108,13 +108,13 @@ resource "azurerm_linux_function_app" "main" {
 
 # Azure Storage Queue - holds emergency events temporarily for async processing
 resource "azurerm_storage_queue" "alerts" {
-  name                 = "episure-alerts"
+  name                 = "example"
   storage_account_name = azurerm_storage_account.function.name
 }
 
 # Cosmos DB Account - stores processed, queryable event data (used in dashboard)
 resource "azurerm_cosmosdb_account" "main" {
-  name                = "episurecosmosdemo${random_string.suffix.result}"
+  name                = "example${random_string.suffix.result}"
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
   offer_type          = "Standard"
@@ -132,7 +132,7 @@ resource "azurerm_cosmosdb_account" "main" {
 
 # Cosmos DB SQL Database - required logical container for collections
 resource "azurerm_cosmosdb_sql_database" "main" {
-  name                = "episuredb"
+  name                = "example"
   resource_group_name = azurerm_resource_group.main.name
   account_name        = azurerm_cosmosdb_account.main.name
 }
